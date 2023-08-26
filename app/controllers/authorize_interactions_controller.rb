@@ -3,7 +3,7 @@
 class AuthorizeInteractionsController < ApplicationController
   include Authorization
 
-  before_action :authenticate_user!
+  before_action :authenticate_user_if_remote!
   before_action :set_resource
 
   def show
@@ -17,6 +17,11 @@ class AuthorizeInteractionsController < ApplicationController
   end
 
   private
+
+  def authenticate_user_if_remote!
+    return if uri_param_is_url? && Rails.configuration.x.local_domain == parsed_uri.host
+    authenticate_user!
+  end
 
   def set_resource
     @resource = located_resource
