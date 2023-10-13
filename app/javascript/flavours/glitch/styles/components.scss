@@ -1864,6 +1864,7 @@ body > [data-popper-placement] {
 .detailed-status {
   padding: 14px 10px; // glitch: reduced padding
   border-top: 1px solid var(--background-border-color);
+  overflow: hidden;
 
   .status__content {
     font-size: 19px;
@@ -9037,6 +9038,7 @@ noscript {
 .status__wrapper,
 .conversation {
   position: relative;
+  overflow: hidden;
 
   &.unread {
     &::before {
