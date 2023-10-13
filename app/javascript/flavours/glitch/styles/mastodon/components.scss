@@ -1878,6 +1878,7 @@ body > [data-popover-placement] {
 .detailed-status {
   padding: 14px 10px; // glitch: reduced padding
   border-top: 1px solid var(--color-border-primary);
+  overflow: hidden;
 
   .status__content {
     font-size: 19px;
@@ -9050,6 +9051,7 @@ noscript {
 .status__wrapper,
 .conversation {
   position: relative;
+  overflow: hidden;
 
   &.unread {
     &::before {
