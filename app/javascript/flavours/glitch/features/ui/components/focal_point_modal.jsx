@@ -50,6 +50,7 @@ const mapStateToProps = (state, { id }) => ({
   focusY: state.getIn(['compose', 'media_modal', 'focusY']),
   dirty: state.getIn(['compose', 'media_modal', 'dirty']),
   is_changing_upload: state.getIn(['compose', 'is_changing_upload']),
+  maxDescChars: state.getIn(['server', 'server', 'configuration', 'media_attachments', 'max_description_characters'], 1500),
 });
 
 const mapDispatchToProps = (dispatch, { id }) => ({
@@ -118,6 +119,7 @@ class FocalPointModal extends ImmutablePureComponent {
     onSelectThumbnail: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
+    maxDescChars: PropTypes.number,
   };
 
   state = {
@@ -279,7 +281,7 @@ class FocalPointModal extends ImmutablePureComponent {
   };
 
   render () {
-    const { media, intl, account, onClose, isUploadingThumbnail, description, lang, focusX, focusY, dirty, is_changing_upload } = this.props;
+    const { media, intl, account, onClose, isUploadingThumbnail, description, lang, focusX, focusY, dirty, is_changing_upload, maxDescChars } = this.props;
     const { dragging, detecting, progress, ocrStatus } = this.state;
     const x = (focusX /  2) + .5;
     const y = (focusY / -2) + .5;
@@ -375,12 +377,12 @@ class FocalPointModal extends ImmutablePureComponent {
               >
                 <FormattedMessage id='upload_modal.detect_text' defaultMessage='Detect text from picture' />
               </button>
-              <CharacterCounter max={1500} text={detecting ? '' : description} />
+              <CharacterCounter max={maxDescChars} text={detecting ? '' : description} />
             </div>
 
             <Button
               type='submit'
-              disabled={!dirty || detecting || isUploadingThumbnail || length(description) > 1500 || is_changing_upload}
+              disabled={!dirty || detecting || isUploadingThumbnail || length(description) > maxDescChars || is_changing_upload}
               text={intl.formatMessage(is_changing_upload ? messages.applying : messages.apply)}
             />
           </form>
